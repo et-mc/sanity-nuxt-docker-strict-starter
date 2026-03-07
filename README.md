@@ -13,6 +13,74 @@ This template includes a [Nuxt](https://nuxt.com/) app with a [Sanity Studio](ht
 - **Flexible Rendering Strategies:** Choose between Server-Side Rendering (SSR), Static Site Generation (SSG), or hybrid rendering at the route level.
 - **Easy Media Management:** [Integrated Unsplash support](https://www.sanity.io/plugins/sanity-plugin-asset-source-unsplash) for seamless media handling.
 
+## Developer Tooling
+
+This project comes with a comprehensive developer tooling setup:
+
+### Linting & Formatting
+
+- **[Biome](https://biomejs.dev/)** — Fast linter and formatter for JavaScript, TypeScript, CSS, and Vue SFCs. Configured with Tailwind CSS directive support.
+
+```shell
+npm run lint        # Check for issues
+npm run lint:fix    # Auto-fix issues
+npm run format      # Format all files
+```
+
+### Testing
+
+- **[Vitest](https://vitest.dev/)** — Unit testing with `@nuxt/test-utils` and `happy-dom` for a Nuxt-aware test environment.
+- **[Playwright](https://playwright.dev/)** — End-to-end browser testing.
+
+```shell
+npm test                              # Run unit tests
+npm run test --workspace=frontend -- --watch  # Watch mode
+cd frontend && npx playwright test    # Run e2e tests
+```
+
+### Code Quality & Security
+
+- **[qlty](https://qlty.sh/)** — Code quality analysis platform.
+- **[Semgrep](https://semgrep.dev/)** — Static security analysis.
+- **npm audit** — Dependency vulnerability scanning.
+
+```shell
+npm run lint:semgrep    # Run semgrep scan
+npm run audit           # Run dependency audit
+```
+
+### Git Workflow
+
+- **[Husky](https://typicode.github.io/husky/)** — Git hooks for automated checks.
+  - **pre-commit:** Runs Biome lint on every commit.
+  - **commit-msg:** Validates commit messages with commitlint.
+  - **prepare-commit-msg:** Opens interactive commitizen prompt.
+- **[Commitizen](https://commitizen.github.io/cz-cli/)** — Interactive conventional commit message builder. Running `git commit` opens a guided prompt.
+- **[Commitlint](https://commitlint.js.org/)** — Enforces [Conventional Commits](https://www.conventionalcommits.org/) format.
+
+```shell
+npm run commit    # Alternative: run commitizen directly
+```
+
+### Docker
+
+Local development is fully containerized with Docker Compose. Both the Nuxt frontend and Sanity Studio run with hot-reload via volume mounts.
+
+```shell
+docker compose up    # Start frontend (:3000) and studio (:3333)
+```
+
+### CI Pipeline
+
+A GitHub Actions workflow runs on every push and on pull requests to `main`:
+
+| Job | Description |
+|-----|-------------|
+| **Lint** | Biome check |
+| **Semgrep** | Static security analysis |
+| **Audit** | npm dependency audit |
+| **Unit Tests** | Vitest suite |
+
 ## Demo
 
 https://template-nuxt-clean.sanity.dev
@@ -39,6 +107,12 @@ Navigate to the template directory using `cd <your app name>`, and start the dev
 
 ```shell
 npm run dev
+```
+
+Or with Docker:
+
+```shell
+docker compose up
 ```
 
 #### 3. Open the app and sign in to the Studio
