@@ -1,0 +1,28 @@
+services:
+  frontend:
+    build: .
+    working_dir: /app/frontend
+    command: npx nuxt dev --host 0.0.0.0
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app/frontend
+      - /app/frontend/node_modules
+    env_file:
+      - ./frontend/.env
+    environment:
+      - HOST=0.0.0.0
+
+  studio:
+    build: .
+    working_dir: /app/studio
+    command: npx sanity dev --host 0.0.0.0
+    ports:
+      - "3333:3333"
+    volumes:
+      - ./studio:/app/studio
+      - /app/studio/node_modules
+    env_file:
+      - ./studio/.env
+    environment:
+      - HOST=0.0.0.0
