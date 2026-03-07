@@ -8,7 +8,8 @@
     "import-sample-data": "cd studio && sanity dataset import sample-data.tar.gz --replace",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
-    "format": "biome format --write ."
+    "format": "biome format --write .",
+    "test": "npm run test --workspace=frontend"
   },
   "keywords": [
     "Sanity",
