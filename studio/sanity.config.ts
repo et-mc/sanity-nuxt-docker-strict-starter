@@ -91,7 +91,7 @@ export default defineConfig({
               locations: [
                 {
                   title: doc?.name || "Untitled",
-                  href: resolveHref("page", doc?.slug)!,
+                  href: resolveHref("page", doc?.slug) ?? "/",
                 },
               ],
             }),
@@ -105,7 +105,7 @@ export default defineConfig({
               locations: [
                 {
                   title: doc?.title || "Untitled",
-                  href: resolveHref("post", doc?.slug)!,
+                  href: resolveHref("post", doc?.slug) ?? "/",
                 },
                 {
                   title: "Home",
