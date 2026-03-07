@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { h } from "vue";
 import type { PortableTextMarkComponentProps } from "@portabletext/vue";
-import type { BlockContent, Link } from "~/sanity/types";
+import { h } from "vue";
 import ResolvedLink from "~/components/ResolvedLink.vue";
+import type { BlockContent } from "~/sanity/types";
 
-const components = {
+const _components = {
   marks: {
     link: (props: PortableTextMarkComponentProps) =>
       props.value

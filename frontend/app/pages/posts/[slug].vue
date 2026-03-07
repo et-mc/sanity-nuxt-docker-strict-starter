@@ -10,7 +10,7 @@ const { data: posts } = await useSanityQuery<SomePostsQueryResult>(
   {
     skip: useRoute().params.slug,
     limit: 2,
-  }
+  },
 );
 
 useSiteMetadata({

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-const show = ref(true);
+const _show = ref(true);
 
-const route = useRoute();
+const _route = useRoute();
 const { enabled: previewEnabled, inFrame } = useSanityVisualEditingState();
 </script>
 

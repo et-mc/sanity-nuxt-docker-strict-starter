@@ -1,5 +1,5 @@
-import {defineField, defineType} from 'sanity'
-import {DocumentIcon} from '@sanity/icons'
+import { DocumentIcon } from "@sanity/icons";
+import { defineField, defineType } from "sanity";
 
 /**
  * Page schema.  Define and edit the fields for the 'page' content type.
@@ -7,90 +7,90 @@ import {DocumentIcon} from '@sanity/icons'
  */
 
 export const page = defineType({
-  name: 'page',
-  title: 'Page',
-  type: 'document',
+  name: "page",
+  title: "Page",
+  type: "document",
   icon: DocumentIcon,
   groups: [
     {
-      name: 'content',
-      title: 'Content',
+      name: "content",
+      title: "Content",
     },
     {
-      name: 'seo',
-      title: 'SEO',
+      name: "seo",
+      title: "SEO",
     },
   ],
   fields: [
     // Content fields
     defineField({
-      name: 'name',
-      title: 'Name',
-      type: 'string',
+      name: "name",
+      title: "Name",
+      type: "string",
       validation: (Rule) => Rule.required(),
-      group: 'content',
+      group: "content",
     }),
 
     defineField({
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
+      name: "slug",
+      title: "Slug",
+      type: "slug",
       validation: (Rule) => Rule.required(),
       options: {
-        source: 'name',
+        source: "name",
         maxLength: 96,
       },
-      group: 'content',
+      group: "content",
     }),
     defineField({
-      name: 'heading',
-      title: 'Heading',
-      type: 'string',
+      name: "heading",
+      title: "Heading",
+      type: "string",
       validation: (Rule) => Rule.required(),
-      group: 'content',
+      group: "content",
     }),
     defineField({
-      name: 'subheading',
-      title: 'Subheading',
-      type: 'string',
-      group: 'content',
+      name: "subheading",
+      title: "Subheading",
+      type: "string",
+      group: "content",
     }),
     defineField({
-      name: 'pageBuilder',
-      title: 'Page builder',
-      type: 'array',
-      of: [{type: 'callToAction'}, {type: 'infoSection'}],
+      name: "pageBuilder",
+      title: "Page builder",
+      type: "array",
+      of: [{ type: "callToAction" }, { type: "infoSection" }],
       options: {
         insertMenu: {
           // Configure the "Add Item" menu to display a thumbnail preview of the content type. https://www.sanity.io/docs/array-type#efb1fe03459d
           views: [
             {
-              name: 'grid',
+              name: "grid",
               previewImageUrl: (schemaTypeName) =>
                 `/static/page-builder-thumbnails/${schemaTypeName}.webp`,
             },
           ],
         },
       },
-      group: 'content',
+      group: "content",
     }),
 
     // SEO fields
     defineField({
-      name: 'seoTitle',
-      title: 'SEO Title',
-      type: 'string',
+      name: "seoTitle",
+      title: "SEO Title",
+      type: "string",
       description:
-        'Title used for search engines and social media sharing (recommended: 50-60 characters)',
-      group: 'seo',
+        "Title used for search engines and social media sharing (recommended: 50-60 characters)",
+      group: "seo",
     }),
     defineField({
-      name: 'seoDescription',
-      title: 'SEO Description',
-      type: 'text',
+      name: "seoDescription",
+      title: "SEO Description",
+      type: "text",
       description:
-        'Description used for search engines and social media sharing (recommended: 150-160 characters)',
-      group: 'seo',
+        "Description used for search engines and social media sharing (recommended: 150-160 characters)",
+      group: "seo",
     }),
   ],
-})
+});

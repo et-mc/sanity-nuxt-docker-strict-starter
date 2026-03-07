@@ -1,9 +1,9 @@
 <script setup>
 const showTooltip = useState("showTooltip", () => false);
 
-function handleCopy() {
+function _handleCopy() {
   navigator.clipboard.writeText(
-    "npm create sanity@latest -- --template sanity-io/sanity-template-nuxt-clean"
+    "npm create sanity@latest -- --template sanity-io/sanity-template-nuxt-clean",
   );
   showTooltip.value = true;
   setTimeout(() => (showTooltip.value = false), 2000);

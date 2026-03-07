@@ -2,7 +2,7 @@
 import { linkResolver } from "~/lib/utils";
 import type { Link } from "~/sanity/types";
 
-const NuxtLink = resolveComponent("NuxtLink");
+const _NuxtLink = resolveComponent("NuxtLink");
 
 const props = defineProps({
   link: {
@@ -15,7 +15,7 @@ const props = defineProps({
   },
 });
 
-const resolvedLink = computed(() => {
+const _resolvedLink = computed(() => {
   return linkResolver(props.link);
 });
 </script>
