@@ -65,6 +65,89 @@ export const pageQuery = defineQuery(/* groq */ `
 			}
 		}`);
 
+// Product queries
+export const productsQuery = defineQuery(/* groq */ `
+		*[_type == "product" && status == "active"] | order(title asc) {
+			_id,
+			title,
+			"slug": slug.current,
+			sku,
+			price,
+			stock,
+			status,
+			mainImage,
+			collections[]->{_id, name, "slug": slug.current}
+		}`);
+
+export const productQuery = defineQuery(/* groq */ `
+		*[_type == "product" && defined(slug.current) && slug.current == $slug][0]{
+			...,
+			description[]{
+				...,
+				markDefs[]{
+					...,
+					_type == "link" => {
+						"link": {
+							...,
+							${linkReference}
+						}
+					},
+				}
+			},
+			collections[]->{_id, name, "slug": slug.current},
+			variants[]{
+				...,
+				options[]{
+					...,
+					type->{_id, name}
+				}
+			},
+			attributes[]{
+				...,
+				definition->{_id, name, unit, valueType}
+			}
+		}`);
+
+export const productCategoriesQuery = defineQuery(/* groq */ `
+		*[_type == "productCategory"] | order(name asc) {
+			_id,
+			name,
+			"slug": slug.current,
+			description,
+			"parent": parent->{_id, name, "slug": slug.current},
+			"productCount": count(*[_type == "product" && status == "active" && references(^._id)])
+		}`);
+
+export const productsByCategoryQuery = defineQuery(/* groq */ `
+		*[_type == "product" && status == "active" && $categoryId in collections[]._ref] | order(title asc) {
+			_id,
+			title,
+			"slug": slug.current,
+			sku,
+			price,
+			stock,
+			status,
+			mainImage,
+			collections[]->{_id, name, "slug": slug.current}
+		}`);
+
+export const storeSettingsQuery = defineQuery(/* groq */ `
+		*[_type == "settings"][0]{
+			storeBaseSlug,
+			useCollectionRouting,
+			createCollectionPages
+		}`);
+
+export const collectionBySlugQuery = defineQuery(/* groq */ `
+		*[_type == "productCategory" && slug.current == $slug][0]{
+			_id,
+			name,
+			"slug": slug.current,
+			description,
+			image,
+			"parent": parent->{_id, name, "slug": slug.current}
+		}`);
+
 export const settingsQuery = defineQuery(/* groq */ `
 		*[_type == "settings"][0]{
 			title,
@@ -80,5 +163,8 @@ export const settingsQuery = defineQuery(/* groq */ `
 							},
 						}
 					},
-			"ogImage": ogImage.asset->url
+			"ogImage": ogImage.asset->url,
+			storeBaseSlug,
+			useCollectionRouting,
+			createCollectionPages
 		}`);

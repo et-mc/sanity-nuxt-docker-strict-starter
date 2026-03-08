@@ -1,4 +1,6 @@
 <script setup lang="ts">
+definePageMeta({ name: "page-by-slug" });
+
 import { pageQuery } from "~/sanity/queries";
 import type { PageQueryResult } from "~/sanity/types";
 

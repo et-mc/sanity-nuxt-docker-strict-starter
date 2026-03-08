@@ -13,124 +13,95 @@
  */
 
 // Source: ../studio/schema.json
-export type SanityImagePaletteSwatch = {
-  _type: "sanity.imagePaletteSwatch";
-  background?: string;
-  foreground?: string;
-  population?: number;
+export type AttributeDefinitionReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "attributeDefinition";
+};
+
+export type ProductAttribute = {
+  _type: "productAttribute";
+  definition?: AttributeDefinitionReference;
+  value?: string;
+};
+
+export type VariantTypeReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "variantType";
+};
+
+export type VariantOption = {
+  _type: "variantOption";
+  type?: VariantTypeReference;
+  value?: string;
+};
+
+export type SanityImageAssetReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+};
+
+export type ProductVariant = {
+  _type: "productVariant";
   title?: string;
+  sku?: string;
+  price?: number;
+  stock?: number;
+  options?: Array<
+    {
+      _key: string;
+    } & VariantOption
+  >;
+  image?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
 };
 
-export type SanityImagePalette = {
-  _type: "sanity.imagePalette";
-  darkMuted?: SanityImagePaletteSwatch;
-  lightVibrant?: SanityImagePaletteSwatch;
-  darkVibrant?: SanityImagePaletteSwatch;
-  vibrant?: SanityImagePaletteSwatch;
-  dominant?: SanityImagePaletteSwatch;
-  lightMuted?: SanityImagePaletteSwatch;
-  muted?: SanityImagePaletteSwatch;
+export type PageReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "page";
 };
 
-export type SanityImageDimensions = {
-  _type: "sanity.imageDimensions";
-  height?: number;
-  width?: number;
-  aspectRatio?: number;
-};
-
-export type SanityFileAsset = {
-  _id: string;
-  _type: "sanity.fileAsset";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  originalFilename?: string;
-  label?: string;
-  title?: string;
-  description?: string;
-  altText?: string;
-  sha1hash?: string;
-  extension?: string;
-  mimeType?: string;
-  size?: number;
-  assetId?: string;
-  uploadId?: string;
-  path?: string;
-  url?: string;
-  source?: SanityAssetSourceData;
-};
-
-export type Geopoint = {
-  _type: "geopoint";
-  lat?: number;
-  lng?: number;
-  alt?: number;
-};
-
-export type CallToAction = {
-  _type: "callToAction";
-  heading: string;
-  text?: string;
-  buttonText?: string;
-  link?: Link;
+export type PostReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "post";
 };
 
 export type Link = {
   _type: "link";
   linkType?: "href" | "page" | "post";
   href?: string;
-  page?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "page";
-  };
-  post?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "post";
-  };
+  page?: PageReference;
+  post?: PostReference;
   openInNewTab?: boolean;
+};
+
+export type CallToAction = {
+  _type: "callToAction";
+  heading?: string;
+  text?: string;
+  buttonText?: string;
+  link?: Link;
 };
 
 export type InfoSection = {
   _type: "infoSection";
   heading?: string;
   subheading?: string;
-  content?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      linkType?: "href" | "page" | "post";
-      href?: string;
-      page?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "page";
-      };
-      post?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "post";
-      };
-      openInNewTab?: boolean;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
+  content?: BlockContent;
 };
 
 export type BlockContent = Array<{
@@ -145,18 +116,8 @@ export type BlockContent = Array<{
   markDefs?: Array<{
     linkType?: "href" | "page" | "post";
     href?: string;
-    page?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "page";
-    };
-    post?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "post";
-    };
+    page?: PageReference;
+    post?: PostReference;
     openInNewTab?: boolean;
     _type: "link";
     _key: string;
@@ -166,133 +127,69 @@ export type BlockContent = Array<{
   _key: string;
 }>;
 
-export type Settings = {
+export type ProductCategoryReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "productCategory";
+};
+
+export type ProductCategory = {
   _id: string;
-  _type: "settings";
+  _type: "productCategory";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title: string;
-  description?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal";
-    listItem?: never;
-    markDefs?: Array<{
-      linkType?: "href" | "page" | "post";
-      href?: string;
-      page?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "page";
-      };
-      post?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "post";
-      };
-      openInNewTab?: boolean;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
+  name?: string;
+  slug?: Slug;
+  description?: string;
+  parent?: ProductCategoryReference;
+  image?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  allowedAttributes?: Array<{
+    attribute?: AttributeDefinitionReference;
+    required?: boolean;
+    _type: "collectionAttribute";
     _key: string;
   }>;
-  ogImage?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
+  allowedVariantTypes?: Array<{
+    variantType?: VariantTypeReference;
+    required?: boolean;
+    _type: "collectionVariantType";
+    _key: string;
+  }>;
 };
 
-export type Page = {
+export type VariantType = {
   _id: string;
-  _type: "page";
+  _type: "variantType";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name: string;
-  slug: Slug;
-  heading: string;
-  subheading?: string;
-  pageBuilder?: Array<
-    | ({
-        _key: string;
-      } & CallToAction)
-    | ({
-        _key: string;
-      } & InfoSection)
-  >;
-  seoTitle?: string;
-  seoDescription?: string;
+  name?: string;
+  options?: Array<{
+    label?: string;
+    value?: string;
+    _type: "variantTypeOption";
+    _key: string;
+  }>;
 };
 
-export type Post = {
+export type AttributeDefinition = {
   _id: string;
-  _type: "post";
+  _type: "attributeDefinition";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title: string;
-  slug: Slug;
-  content?: BlockContent;
-  excerpt?: string;
-  coverImage: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  date?: string;
-  author?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "person";
-  };
-  seoTitle?: string;
-  seoDescription?: string;
-};
-
-export type Person = {
-  _id: string;
-  _type: "person";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  firstName: string;
-  lastName: string;
-  picture: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
+  name?: string;
+  unit?: string;
+  valueType?: "text" | "number";
+  options?: Array<string>;
 };
 
 export type SanityImageCrop = {
@@ -311,51 +208,171 @@ export type SanityImageHotspot = {
   width?: number;
 };
 
-export type SanityImageAsset = {
+export type Slug = {
+  _type: "slug";
+  current?: string;
+  source?: string;
+};
+
+export type Product = {
   _id: string;
-  _type: "sanity.imageAsset";
+  _type: "product";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  originalFilename?: string;
-  label?: string;
   title?: string;
-  description?: string;
-  altText?: string;
-  sha1hash?: string;
-  extension?: string;
-  mimeType?: string;
-  size?: number;
-  assetId?: string;
-  uploadId?: string;
-  path?: string;
-  url?: string;
-  metadata?: SanityImageMetadata;
-  source?: SanityAssetSourceData;
+  slug?: Slug;
+  sku?: string;
+  description?: BlockContent;
+  mainImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  gallery?: Array<{
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  }>;
+  price?: number;
+  stock?: number;
+  collections?: Array<
+    {
+      _key: string;
+    } & ProductCategoryReference
+  >;
+  variants?: Array<
+    {
+      _key: string;
+    } & ProductVariant
+  >;
+  attributes?: Array<
+    {
+      _key: string;
+    } & ProductAttribute
+  >;
+  seoTitle?: string;
+  seoDescription?: string;
+  status?: "draft" | "active" | "archived";
 };
 
-export type SanityAssetSourceData = {
-  _type: "sanity.assetSourceData";
+export type Settings = {
+  _id: string;
+  _type: "settings";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  description?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal";
+    listItem?: never;
+    markDefs?: Array<{
+      linkType?: "href" | "page" | "post";
+      href?: string;
+      page?: PageReference;
+      post?: PostReference;
+      openInNewTab?: boolean;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  ogImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  storeBaseSlug?: string;
+  useCollectionRouting?: boolean;
+  createCollectionPages?: boolean;
+};
+
+export type Page = {
+  _id: string;
+  _type: "page";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
   name?: string;
-  id?: string;
-  url?: string;
+  slug?: Slug;
+  heading?: string;
+  subheading?: string;
+  pageBuilder?: Array<
+    | ({
+        _key: string;
+      } & CallToAction)
+    | ({
+        _key: string;
+      } & InfoSection)
+  >;
+  seoTitle?: string;
+  seoDescription?: string;
 };
 
-export type SanityImageMetadata = {
-  _type: "sanity.imageMetadata";
-  location?: Geopoint;
-  dimensions?: SanityImageDimensions;
-  palette?: SanityImagePalette;
-  lqip?: string;
-  blurHash?: string;
-  hasAlpha?: boolean;
-  isOpaque?: boolean;
+export type PersonReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "person";
 };
 
-export type Slug = {
-  _type: "slug";
-  current: string;
-  source?: string;
+export type Post = {
+  _id: string;
+  _type: "post";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  content?: BlockContent;
+  excerpt?: string;
+  coverImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  date?: string;
+  author?: PersonReference;
+  seoTitle?: string;
+  seoDescription?: string;
+};
+
+export type Person = {
+  _id: string;
+  _type: "person";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  firstName?: string;
+  lastName?: string;
+  picture?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
 };
 
 export type SanityAssistInstructionTask = {
@@ -396,14 +413,16 @@ export type SanityAssistOutputField = {
   path?: string;
 };
 
+export type AssistInstructionContextReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "assist.instruction.context";
+};
+
 export type SanityAssistInstructionContext = {
   _type: "sanity.assist.instruction.context";
-  reference: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "assist.instruction.context";
-  };
+  reference?: AssistInstructionContextReference;
 };
 
 export type AssistInstructionContext = {
@@ -431,7 +450,7 @@ export type AssistInstructionContext = {
 
 export type SanityAssistInstructionUserInput = {
   _type: "sanity.assist.instruction.userInput";
-  message: string;
+  message?: string;
   description?: string;
 };
 
@@ -493,38 +512,149 @@ export type SanityAssistSchemaTypeField = {
   >;
 };
 
+export type SanityImagePaletteSwatch = {
+  _type: "sanity.imagePaletteSwatch";
+  background?: string;
+  foreground?: string;
+  population?: number;
+  title?: string;
+};
+
+export type SanityImagePalette = {
+  _type: "sanity.imagePalette";
+  darkMuted?: SanityImagePaletteSwatch;
+  lightVibrant?: SanityImagePaletteSwatch;
+  darkVibrant?: SanityImagePaletteSwatch;
+  vibrant?: SanityImagePaletteSwatch;
+  dominant?: SanityImagePaletteSwatch;
+  lightMuted?: SanityImagePaletteSwatch;
+  muted?: SanityImagePaletteSwatch;
+};
+
+export type SanityImageDimensions = {
+  _type: "sanity.imageDimensions";
+  height?: number;
+  width?: number;
+  aspectRatio?: number;
+};
+
+export type SanityImageMetadata = {
+  _type: "sanity.imageMetadata";
+  location?: Geopoint;
+  dimensions?: SanityImageDimensions;
+  palette?: SanityImagePalette;
+  lqip?: string;
+  blurHash?: string;
+  hasAlpha?: boolean;
+  isOpaque?: boolean;
+};
+
+export type SanityFileAsset = {
+  _id: string;
+  _type: "sanity.fileAsset";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  originalFilename?: string;
+  label?: string;
+  title?: string;
+  description?: string;
+  altText?: string;
+  sha1hash?: string;
+  extension?: string;
+  mimeType?: string;
+  size?: number;
+  assetId?: string;
+  uploadId?: string;
+  path?: string;
+  url?: string;
+  source?: SanityAssetSourceData;
+};
+
+export type SanityAssetSourceData = {
+  _type: "sanity.assetSourceData";
+  name?: string;
+  id?: string;
+  url?: string;
+};
+
+export type SanityImageAsset = {
+  _id: string;
+  _type: "sanity.imageAsset";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  originalFilename?: string;
+  label?: string;
+  title?: string;
+  description?: string;
+  altText?: string;
+  sha1hash?: string;
+  extension?: string;
+  mimeType?: string;
+  size?: number;
+  assetId?: string;
+  uploadId?: string;
+  path?: string;
+  url?: string;
+  metadata?: SanityImageMetadata;
+  source?: SanityAssetSourceData;
+};
+
+export type Geopoint = {
+  _type: "geopoint";
+  lat?: number;
+  lng?: number;
+  alt?: number;
+};
+
 export type AllSanitySchemaTypes =
-  | SanityImagePaletteSwatch
-  | SanityImagePalette
-  | SanityImageDimensions
-  | SanityFileAsset
-  | Geopoint
-  | CallToAction
+  | AttributeDefinitionReference
+  | ProductAttribute
+  | VariantTypeReference
+  | VariantOption
+  | SanityImageAssetReference
+  | ProductVariant
+  | PageReference
+  | PostReference
   | Link
+  | CallToAction
   | InfoSection
   | BlockContent
-  | Settings
-  | Page
-  | Post
-  | Person
+  | ProductCategoryReference
+  | ProductCategory
+  | VariantType
+  | AttributeDefinition
   | SanityImageCrop
   | SanityImageHotspot
-  | SanityImageAsset
-  | SanityAssetSourceData
-  | SanityImageMetadata
   | Slug
+  | Product
+  | Settings
+  | Page
+  | PersonReference
+  | Post
+  | Person
   | SanityAssistInstructionTask
   | SanityAssistTaskStatus
   | SanityAssistSchemaTypeAnnotations
   | SanityAssistOutputType
   | SanityAssistOutputField
+  | AssistInstructionContextReference
   | SanityAssistInstructionContext
   | AssistInstructionContext
   | SanityAssistInstructionUserInput
   | SanityAssistInstructionPrompt
   | SanityAssistInstructionFieldRef
   | SanityAssistInstruction
-  | SanityAssistSchemaTypeField;
+  | SanityAssistSchemaTypeField
+  | SanityImagePaletteSwatch
+  | SanityImagePalette
+  | SanityImageDimensions
+  | SanityImageMetadata
+  | SanityFileAsset
+  | SanityAssetSourceData
+  | SanityImageAsset
+  | Geopoint;
 
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
@@ -537,29 +667,20 @@ export type PostsQueryResult = Array<{
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title: string;
-  slug: Slug;
+  title?: string;
+  slug?: Slug;
   content?: BlockContent;
   excerpt?: string;
-  coverImage: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+  coverImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
     _type: "image";
   };
   date?: string;
-  author?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "person";
-  };
+  author?: PersonReference;
   seoTitle?: string;
   seoDescription?: string;
 }>;
@@ -573,29 +694,20 @@ export type SomePostsQueryResult = Array<{
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title: string;
-  slug: Slug;
+  title?: string;
+  slug?: Slug;
   content?: BlockContent;
   excerpt?: string;
-  coverImage: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+  coverImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
     _type: "image";
   };
   date?: string;
-  author?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "person";
-  };
+  author?: PersonReference;
   seoTitle?: string;
   seoDescription?: string;
 }>;
@@ -609,8 +721,8 @@ export type PostQueryResult = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title: string;
-  slug: Slug;
+  title?: string;
+  slug?: Slug;
   content: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -623,18 +735,8 @@ export type PostQueryResult = {
     markDefs: Array<{
       linkType?: "href" | "page" | "post";
       href?: string;
-      page?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "page";
-      };
-      post?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "post";
-      };
+      page?: PageReference;
+      post?: PostReference;
       openInNewTab?: boolean;
       _type: "link";
       _key: string;
@@ -653,13 +755,9 @@ export type PostQueryResult = {
     _key: string;
   }> | null;
   excerpt?: string;
-  coverImage: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
+  coverImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
@@ -672,8 +770,8 @@ export type PostQueryResult = {
     _createdAt: string;
     _updatedAt: string;
     _rev: string;
-    firstName: string;
-    lastName: string;
+    firstName?: string;
+    lastName?: string;
     picture: string | null;
   } | null;
   seoTitle?: string;
@@ -689,15 +787,15 @@ export type PageQueryResult = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name: string;
-  slug: Slug;
-  heading: string;
+  name?: string;
+  slug?: Slug;
+  heading?: string;
   subheading?: string;
   pageBuilder: Array<
     | {
         _key: string;
         _type: "callToAction";
-        heading: string;
+        heading?: string;
         text?: string;
         buttonText?: string;
         link: {
@@ -734,18 +832,8 @@ export type PageQueryResult = {
           markDefs: Array<{
             linkType?: "href" | "page" | "post";
             href?: string;
-            page?: {
-              _ref: string;
-              _type: "reference";
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: "page";
-            };
-            post?: {
-              _ref: string;
-              _type: "reference";
-              _weak?: boolean;
-              [internalGroqTypeReferenceTo]?: "post";
-            };
+            page?: PageReference;
+            post?: PostReference;
             openInNewTab?: boolean;
             _type: "link";
             _key: string;
@@ -770,10 +858,216 @@ export type PageQueryResult = {
 } | null;
 
 // Source: app/sanity/queries.ts
+// Variable: productsQuery
+// Query: *[_type == "product" && status == "active"] | order(title asc) {			_id,			title,			"slug": slug.current,			sku,			price,			stock,			status,			mainImage,			collections[]->{_id, name, "slug": slug.current}		}
+export type ProductsQueryResult = Array<{
+  _id: string;
+  title: string | null;
+  slug: string | null;
+  sku: string | null;
+  price: number | null;
+  stock: number | null;
+  status: "active";
+  mainImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  } | null;
+  collections: Array<{
+    _id: string;
+    name: string | null;
+    slug: string | null;
+  }> | null;
+}>;
+
+// Source: app/sanity/queries.ts
+// Variable: productQuery
+// Query: *[_type == "product" && defined(slug.current) && slug.current == $slug][0]{			...,			description[]{				...,				markDefs[]{					...,					_type == "link" => {						"link": {							...,							_type == "link" => {	"page": page->slug.current,	"post": post->slug.current}						}					},				}			},			collections[]->{_id, name, "slug": slug.current},			variants[]{				...,				options[]{					...,					type->{_id, name}				}			},			attributes[]{				...,				definition->{_id, name, unit, valueType}			}		}
+export type ProductQueryResult = {
+  _id: string;
+  _type: "product";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  sku?: string;
+  description: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs: Array<{
+      linkType?: "href" | "page" | "post";
+      href?: string;
+      page?: PageReference;
+      post?: PostReference;
+      openInNewTab?: boolean;
+      _type: "link";
+      _key: string;
+      link: {
+        linkType?: "href" | "page" | "post";
+        href?: string;
+        page: string | null;
+        post: string | null;
+        openInNewTab?: boolean;
+        _type: "link";
+        _key: string;
+      };
+    }> | null;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  mainImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  gallery?: Array<{
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  }>;
+  price?: number;
+  stock?: number;
+  collections: Array<{
+    _id: string;
+    name: string | null;
+    slug: string | null;
+  }> | null;
+  variants: Array<{
+    _key: string;
+    _type: "productVariant";
+    title?: string;
+    sku?: string;
+    price?: number;
+    stock?: number;
+    options: Array<{
+      _key: string;
+      _type: "variantOption";
+      type: {
+        _id: string;
+        name: string | null;
+      } | null;
+      value?: string;
+    }> | null;
+    image?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+  }> | null;
+  attributes: Array<{
+    _key: string;
+    _type: "productAttribute";
+    definition: {
+      _id: string;
+      name: string | null;
+      unit: string | null;
+      valueType: "number" | "text" | null;
+    } | null;
+    value?: string;
+  }> | null;
+  seoTitle?: string;
+  seoDescription?: string;
+  status?: "active" | "archived" | "draft";
+} | null;
+
+// Source: app/sanity/queries.ts
+// Variable: productCategoriesQuery
+// Query: *[_type == "productCategory"] | order(name asc) {			_id,			name,			"slug": slug.current,			description,			"parent": parent->{_id, name, "slug": slug.current},			"productCount": count(*[_type == "product" && status == "active" && references(^._id)])		}
+export type ProductCategoriesQueryResult = Array<{
+  _id: string;
+  name: string | null;
+  slug: string | null;
+  description: string | null;
+  parent: {
+    _id: string;
+    name: string | null;
+    slug: string | null;
+  } | null;
+  productCount: number;
+}>;
+
+// Source: app/sanity/queries.ts
+// Variable: productsByCategoryQuery
+// Query: *[_type == "product" && status == "active" && $categoryId in collections[]._ref] | order(title asc) {			_id,			title,			"slug": slug.current,			sku,			price,			stock,			status,			mainImage,			collections[]->{_id, name, "slug": slug.current}		}
+export type ProductsByCategoryQueryResult = Array<{
+  _id: string;
+  title: string | null;
+  slug: string | null;
+  sku: string | null;
+  price: number | null;
+  stock: number | null;
+  status: "active" | "archived" | "draft" | null;
+  mainImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  } | null;
+  collections: Array<{
+    _id: string;
+    name: string | null;
+    slug: string | null;
+  }> | null;
+}>;
+
+// Source: app/sanity/queries.ts
+// Variable: storeSettingsQuery
+// Query: *[_type == "settings"][0]{			storeBaseSlug,			useCollectionRouting,			createCollectionPages		}
+export type StoreSettingsQueryResult = {
+  storeBaseSlug: string | null;
+  useCollectionRouting: boolean | null;
+  createCollectionPages: boolean | null;
+} | null;
+
+// Source: app/sanity/queries.ts
+// Variable: collectionBySlugQuery
+// Query: *[_type == "productCategory" && slug.current == $slug][0]{			_id,			name,			"slug": slug.current,			description,			image,			"parent": parent->{_id, name, "slug": slug.current}		}
+export type CollectionBySlugQueryResult = {
+  _id: string;
+  name: string | null;
+  slug: string | null;
+  description: string | null;
+  image: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+  parent: {
+    _id: string;
+    name: string | null;
+    slug: string | null;
+  } | null;
+} | null;
+
+// Source: app/sanity/queries.ts
 // Variable: settingsQuery
-// Query: *[_type == "settings"][0]{			title,			description[]{						...,						markDefs[]{							...,							_type == "link" => {								"link": {									...,									_type == "link" => {	"page": page->slug.current,	"post": post->slug.current}								}							},						}					},			"ogImage": ogImage.asset->url		}
+// Query: *[_type == "settings"][0]{			title,			description[]{						...,						markDefs[]{							...,							_type == "link" => {								"link": {									...,									_type == "link" => {	"page": page->slug.current,	"post": post->slug.current}								}							},						}					},			"ogImage": ogImage.asset->url,			storeBaseSlug,			useCollectionRouting,			createCollectionPages		}
 export type SettingsQueryResult = {
-  title: string;
+  title: string | null;
   description: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -786,18 +1080,8 @@ export type SettingsQueryResult = {
     markDefs: Array<{
       linkType?: "href" | "page" | "post";
       href?: string;
-      page?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "page";
-      };
-      post?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "post";
-      };
+      page?: PageReference;
+      post?: PostReference;
       openInNewTab?: boolean;
       _type: "link";
       _key: string;
@@ -816,6 +1100,9 @@ export type SettingsQueryResult = {
     _key: string;
   }> | null;
   ogImage: string | null;
+  storeBaseSlug: string | null;
+  useCollectionRouting: boolean | null;
+  createCollectionPages: boolean | null;
 } | null;
 
 // Query TypeMap
@@ -826,6 +1113,12 @@ declare module "@sanity/client" {
     '\n\t\t*[_type == "post" && slug.current != $skip][0...$limit] | order(date desc, _updatedAt desc) {\n\t\t\t...\n\t\t}': SomePostsQueryResult;
     '\n\t\t*[_type == "post" && defined(slug.current) && slug.current == $slug][0]{\n\t\t\t...,\n\t\t\tcontent[]{\n\t\t\t\t\t\t...,\n\t\t\t\t\t\tmarkDefs[]{\n\t\t\t\t\t\t\t...,\n\t\t\t\t\t\t\t_type == "link" => {\n\t\t\t\t\t\t\t\t"link": {\n\t\t\t\t\t\t\t\t\t...,\n\t\t\t\t\t\t\t\t\t\n_type == "link" => {\n\t"page": page->slug.current,\n\t"post": post->slug.current\n}\n\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t"author": author->{..., "picture": picture.asset._ref}\n\t\t}': PostQueryResult;
     '\n\t\t*[_type == "page" && defined(slug.current) && slug.current == $slug][0]{\n\t\t\t...,\n\t\t\t"pageBuilder": pageBuilder[]{\n\t\t\t\t...,\n\t\t\t\t_type == "callToAction" => {\n\t\t\t\t\t\nlink {\n\t...,\n\t\n_type == "link" => {\n\t"page": page->slug.current,\n\t"post": post->slug.current\n}\n\n\t}\n,\n\t\t\t\t},\n\t\t\t\t_type == "infoSection" => {\n\t\t\t\t\tcontent[]{\n\t\t\t\t\t\t...,\n\t\t\t\t\t\tmarkDefs[]{\n\t\t\t\t\t\t\t...,\n\t\t\t\t\t\t\t_type == "link" => {\n\t\t\t\t\t\t\t\t"link": {\n\t\t\t\t\t\t\t\t\t...,\n\t\t\t\t\t\t\t\t\t\n_type == "link" => {\n\t"page": page->slug.current,\n\t"post": post->slug.current\n}\n\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t}\n\t\t}': PageQueryResult;
-    '\n\t\t*[_type == "settings"][0]{\n\t\t\ttitle,\n\t\t\tdescription[]{\n\t\t\t\t\t\t...,\n\t\t\t\t\t\tmarkDefs[]{\n\t\t\t\t\t\t\t...,\n\t\t\t\t\t\t\t_type == "link" => {\n\t\t\t\t\t\t\t\t"link": {\n\t\t\t\t\t\t\t\t\t...,\n\t\t\t\t\t\t\t\t\t\n_type == "link" => {\n\t"page": page->slug.current,\n\t"post": post->slug.current\n}\n\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t"ogImage": ogImage.asset->url\n\t\t}': SettingsQueryResult;
+    '\n\t\t*[_type == "product" && status == "active"] | order(title asc) {\n\t\t\t_id,\n\t\t\ttitle,\n\t\t\t"slug": slug.current,\n\t\t\tsku,\n\t\t\tprice,\n\t\t\tstock,\n\t\t\tstatus,\n\t\t\tmainImage,\n\t\t\tcollections[]->{_id, name, "slug": slug.current}\n\t\t}': ProductsQueryResult;
+    '\n\t\t*[_type == "product" && defined(slug.current) && slug.current == $slug][0]{\n\t\t\t...,\n\t\t\tdescription[]{\n\t\t\t\t...,\n\t\t\t\tmarkDefs[]{\n\t\t\t\t\t...,\n\t\t\t\t\t_type == "link" => {\n\t\t\t\t\t\t"link": {\n\t\t\t\t\t\t\t...,\n\t\t\t\t\t\t\t\n_type == "link" => {\n\t"page": page->slug.current,\n\t"post": post->slug.current\n}\n\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t}\n\t\t\t},\n\t\t\tcollections[]->{_id, name, "slug": slug.current},\n\t\t\tvariants[]{\n\t\t\t\t...,\n\t\t\t\toptions[]{\n\t\t\t\t\t...,\n\t\t\t\t\ttype->{_id, name}\n\t\t\t\t}\n\t\t\t},\n\t\t\tattributes[]{\n\t\t\t\t...,\n\t\t\t\tdefinition->{_id, name, unit, valueType}\n\t\t\t}\n\t\t}': ProductQueryResult;
+    '\n\t\t*[_type == "productCategory"] | order(name asc) {\n\t\t\t_id,\n\t\t\tname,\n\t\t\t"slug": slug.current,\n\t\t\tdescription,\n\t\t\t"parent": parent->{_id, name, "slug": slug.current},\n\t\t\t"productCount": count(*[_type == "product" && status == "active" && references(^._id)])\n\t\t}': ProductCategoriesQueryResult;
+    '\n\t\t*[_type == "product" && status == "active" && $categoryId in collections[]._ref] | order(title asc) {\n\t\t\t_id,\n\t\t\ttitle,\n\t\t\t"slug": slug.current,\n\t\t\tsku,\n\t\t\tprice,\n\t\t\tstock,\n\t\t\tstatus,\n\t\t\tmainImage,\n\t\t\tcollections[]->{_id, name, "slug": slug.current}\n\t\t}': ProductsByCategoryQueryResult;
+    '\n\t\t*[_type == "settings"][0]{\n\t\t\tstoreBaseSlug,\n\t\t\tuseCollectionRouting,\n\t\t\tcreateCollectionPages\n\t\t}': StoreSettingsQueryResult;
+    '\n\t\t*[_type == "productCategory" && slug.current == $slug][0]{\n\t\t\t_id,\n\t\t\tname,\n\t\t\t"slug": slug.current,\n\t\t\tdescription,\n\t\t\timage,\n\t\t\t"parent": parent->{_id, name, "slug": slug.current}\n\t\t}': CollectionBySlugQueryResult;
+    '\n\t\t*[_type == "settings"][0]{\n\t\t\ttitle,\n\t\t\tdescription[]{\n\t\t\t\t\t\t...,\n\t\t\t\t\t\tmarkDefs[]{\n\t\t\t\t\t\t\t...,\n\t\t\t\t\t\t\t_type == "link" => {\n\t\t\t\t\t\t\t\t"link": {\n\t\t\t\t\t\t\t\t\t...,\n\t\t\t\t\t\t\t\t\t\n_type == "link" => {\n\t"page": page->slug.current,\n\t"post": post->slug.current\n}\n\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t"ogImage": ogImage.asset->url,\n\t\t\tstoreBaseSlug,\n\t\t\tuseCollectionRouting,\n\t\t\tcreateCollectionPages\n\t\t}': SettingsQueryResult;
   }
 }

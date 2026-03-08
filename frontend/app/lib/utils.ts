@@ -15,10 +15,12 @@ export function linkResolver(link: Link | undefined) {
       if (link?.page && typeof link.page === "string") {
         return `/${link.page}`;
       }
+      break;
     case "post":
       if (link?.post && typeof link.post === "string") {
         return `/posts/${link.post}`;
       }
+      break;
     default:
       return null;
   }
