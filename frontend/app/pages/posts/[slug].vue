@@ -5,12 +5,13 @@ import type { PostQueryResult, SomePostsQueryResult } from "~/sanity/types";
 const { data: post } = await useSanityQuery<PostQueryResult>(postQuery, {
   slug: useRoute().params.slug,
 });
+// biome-ignore lint/correctness/noUnusedVariables: used in template
 const { data: posts } = await useSanityQuery<SomePostsQueryResult>(
   somePostsQuery,
   {
     skip: useRoute().params.slug,
     limit: 2,
-  }
+  },
 );
 
 useSiteMetadata({

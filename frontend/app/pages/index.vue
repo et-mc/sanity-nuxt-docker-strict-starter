@@ -2,6 +2,7 @@
 import { postsQuery, settingsQuery } from "~/sanity/queries";
 import type { PostsQueryResult, SettingsQueryResult } from "~/sanity/types";
 
+// biome-ignore lint/correctness/noUnusedVariables: used in template
 const { data: posts } = await useSanityQuery<PostsQueryResult>(postsQuery);
 const { data: settings } =
   await useSanityQuery<SettingsQueryResult>(settingsQuery);
@@ -13,6 +14,7 @@ useSiteMetadata({
   ogImage: settings?.value?.ogImage || "",
 });
 
+// biome-ignore lint/correctness/noUnusedVariables: used in template
 const { leftDivRef, rightDivRef } = usePageAnimation();
 </script>
 
@@ -20,15 +22,15 @@ const { leftDivRef, rightDivRef } = usePageAnimation();
   <div class="relative">
     <div
       ref="leftDivRef"
-      class="bg-gradient-to-r from-red-400 w-[0] h-full absolute left-0 left-div"
+      class="bg-linear-to-r from-red-400 w-0 h-full absolute left-0 left-div"
     ></div>
     <div
       ref="rightDivRef"
-      class="bg-gradient-to-l from-nuxt w-[0] h-full absolute right-0 right-div"
+      class="bg-linear-to-l from-nuxt w-0 h-full absolute right-0 right-div"
     ></div>
-    <div class="bg-gradient-to-b from-white w-full h-40 absolute top-0"></div>
+    <div class="bg-linear-to-b from-white w-full h-40 absolute top-0"></div>
     <div
-      class="bg-gradient-to-t from-white w-full h-40 absolute bottom-0"
+      class="bg-linear-to-t from-white w-full h-40 absolute bottom-0"
     ></div>
     <div class="container relative">
       <div

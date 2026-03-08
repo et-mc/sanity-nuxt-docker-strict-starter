@@ -7,7 +7,7 @@ const { data: page } = await useSanityQuery<PageQueryResult>(pageQuery, {
 });
 
 // This is needed to correctly set the studioUrl
-const runtimeConfig = useRuntimeConfig();
+const _runtimeConfig = useRuntimeConfig();
 
 useSiteMetadata({
   title: page?.value?.seoTitle || page?.value?.heading,

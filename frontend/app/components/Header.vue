@@ -2,6 +2,7 @@
 import { settingsQuery } from "~/sanity/queries";
 import type { SettingsQueryResult } from "~/sanity/types";
 
+// biome-ignore lint/correctness/noUnusedVariables: used in template
 const { data: settings } =
   await useSanityQuery<SettingsQueryResult>(settingsQuery);
 </script>

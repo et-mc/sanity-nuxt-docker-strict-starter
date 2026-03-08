@@ -1,0 +1,13 @@
+node_modules
+frontend/node_modules
+studio/node_modules
+.nuxt
+.output
+dist
+.git
+.husky
+.qlty
+playwright-report
+test-results
+blob-report
+*.log

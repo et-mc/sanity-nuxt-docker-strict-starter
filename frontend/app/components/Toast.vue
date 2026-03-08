@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
+// biome-ignore lint/correctness/noUnusedVariables: used in template
 const show = ref(true);
 
+// biome-ignore lint/correctness/noUnusedVariables: used in template
 const route = useRoute();
+// biome-ignore lint/correctness/noUnusedVariables: used in template
 const { enabled: previewEnabled, inFrame } = useSanityVisualEditingState();
 </script>
 
