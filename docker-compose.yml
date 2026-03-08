@@ -8,6 +8,8 @@ services:
     volumes:
       - ./frontend:/app/frontend
       - /app/frontend/node_modules
+      - /app/frontend/.nuxt
+      - /app/frontend/.output
     env_file:
       - ./frontend/.env
     environment:
@@ -22,6 +24,8 @@ services:
     volumes:
       - ./studio:/app/studio
       - /app/studio/node_modules
+      - /app/studio/.sanity
+      - /app/studio/dist
     env_file:
       - ./studio/.env
     environment:

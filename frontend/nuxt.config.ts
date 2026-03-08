@@ -26,7 +26,12 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
     optimizeDeps: {
-      include: ["shallowequal", "lodash/startCase.js"],
+      include: [
+        "shallowequal",
+        "lodash/startCase.js",
+        "react-compiler-runtime",
+        "react",
+      ],
     },
   },
 });

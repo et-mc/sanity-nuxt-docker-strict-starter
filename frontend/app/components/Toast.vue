@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 // biome-ignore lint/correctness/noUnusedVariables: used in template
 const show = ref(true);
 
 // biome-ignore lint/correctness/noUnusedVariables: used in template
 const route = useRoute();
+const visualEditingState = useSanityVisualEditingState();
 // biome-ignore lint/correctness/noUnusedVariables: used in template
-const { enabled: previewEnabled, inFrame } = useSanityVisualEditingState();
+const previewEnabled = computed(() => visualEditingState?.enabled ?? false);
+// biome-ignore lint/correctness/noUnusedVariables: used in template
+const inFrame = computed(() => visualEditingState?.inFrame ?? false);
 </script>
 
 <template>
