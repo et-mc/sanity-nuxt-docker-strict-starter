@@ -1,175 +1,116 @@
-# Clean Nuxt + Sanity app
+# Sanity + Nuxt + Docker Strict Starter
 
-This template includes a [Nuxt](https://nuxt.com/) app with a [Sanity Studio](https://www.sanity.io/) – an open-source Vue application that connects to your Sanity project's hosted dataset. The Studio is configured locally and can then be deployed for content collaboration.
+A batteries-included starter for building content-driven apps with [Nuxt](https://nuxt.com/) and [Sanity](https://www.sanity.io/). Forked from the official [Sanity Nuxt Clean template](https://github.com/sanity-io/sanity-template-nuxt-clean) and upgraded with strict code quality standards, testing, containerized development, and CI/CD.
 
 ![Screenshot of Sanity Studio using Presentation Tool to do Visual Editing](./nuxt-sanity-preview.webp)
 
-## Features
+## What's Different From the Original Template?
 
-- **Nuxt 3 for Performance:** Leverage the power of Nuxt 3's hybrid rendering capabilities for blazing-fast performance and SEO-friendly applications.
-- **Real-time Previews:** Edit content live with Sanity's [Presentation Tool](https://www.sanity.io/docs/presentation) and see updates in real time.
-- **Powerful Content Management:** Collaborate with team members in real-time, with fine-grained revision history.
-- **AI-powered Media Support:** Auto-generate alt text with [Sanity AI Assist](https://www.sanity.io/ai-assist). (Available on Free Trial and Growth Tiers. [See Pricing](https://www.sanity.io/pricing))
-- **Flexible Rendering Strategies:** Choose between Server-Side Rendering (SSR), Static Site Generation (SSG), or hybrid rendering at the route level.
-- **Easy Media Management:** [Integrated Unsplash support](https://www.sanity.io/plugins/sanity-plugin-asset-source-unsplash) for seamless media handling.
+This starter takes the official Sanity + Nuxt template and adds everything you'd set up yourself on a real project:
 
-## Developer Tooling
-
-This project comes with a comprehensive developer tooling setup:
-
-### Linting & Formatting
-
-- **[Biome](https://biomejs.dev/)** — Fast linter and formatter for JavaScript, TypeScript, CSS, and Vue SFCs. Configured with Tailwind CSS directive support.
-
-```shell
-npm run lint        # Check for issues
-npm run lint:fix    # Auto-fix issues
-npm run format      # Format all files
-```
-
-### Testing
-
-- **[Vitest](https://vitest.dev/)** — Unit testing with `@nuxt/test-utils` and `happy-dom` for a Nuxt-aware test environment.
-- **[Playwright](https://playwright.dev/)** — End-to-end browser testing.
-
-```shell
-npm test                              # Run unit tests
-npm run test --workspace=frontend -- --watch  # Watch mode
-cd frontend && npx playwright test    # Run e2e tests
-```
-
-### Code Quality & Security
-
-- **[qlty](https://qlty.sh/)** — Code quality analysis platform.
-- **[Semgrep](https://semgrep.dev/)** — Static security analysis.
-- **npm audit** — Dependency vulnerability scanning.
-
-```shell
-npm run lint:semgrep    # Run semgrep scan
-npm run audit           # Run dependency audit
-```
-
-### Git Workflow
-
-- **[Husky](https://typicode.github.io/husky/)** — Git hooks for automated checks.
-  - **pre-commit:** Runs Biome lint on every commit.
-  - **commit-msg:** Validates commit messages with commitlint.
-  - **prepare-commit-msg:** Opens interactive commitizen prompt.
-- **[Commitizen](https://commitizen.github.io/cz-cli/)** — Interactive conventional commit message builder. Running `git commit` opens a guided prompt.
-- **[Commitlint](https://commitlint.js.org/)** — Enforces [Conventional Commits](https://www.conventionalcommits.org/) format.
-
-```shell
-npm run commit    # Alternative: run commitizen directly
-```
-
-### Docker
-
-Local development is fully containerized with Docker Compose. Both the Nuxt frontend and Sanity Studio run with hot-reload via volume mounts.
-
-```shell
-docker compose up    # Start frontend (:3000) and studio (:3333)
-```
-
-### CI Pipeline
-
-A GitHub Actions workflow runs on every push and on pull requests to `main`:
-
-| Job | Description |
-|-----|-------------|
-| **Lint** | Biome check |
-| **Semgrep** | Static security analysis |
-| **Audit** | npm dependency audit |
-| **Unit Tests** | Vitest suite |
-
-## Demo
-
-https://template-nuxt-clean.sanity.dev
+- **Biome** for fast linting and formatting (replaces ESLint + Prettier)
+- **Vitest** for unit testing with Nuxt-aware test utilities
+- **Playwright** for end-to-end browser testing
+- **Docker Compose** for one-command local development
+- **Husky** git hooks with Biome checks on every commit
+- **Commitizen + Commitlint** for conventional commit messages
+- **Semgrep** for static security analysis
+- **npm audit** for dependency vulnerability scanning
+- **qlty** for code quality analysis
+- **GitHub Actions CI** pipeline running lint, security, audit, and tests on every push
 
 ## Getting Started
 
-### Installing the template
+### 1. Create a Sanity project
 
-#### 1. Initialize template with Sanity CLI
-
-Run the command in your Terminal to initialize this template on your local computer.
-
-See the documentation if you are [having issues with the CLI](https://www.sanity.io/help/cli-errors).
+If you don't have a Sanity project yet, create one at [sanity.io/manage](https://www.sanity.io/manage) or run:
 
 ```shell
-npm create sanity@latest -- --template sanity-io/sanity-template-nuxt-clean
+cd studio && npx sanity init
 ```
 
-(ToDo: update script when merging)
-
-#### 2. Run Studio and Nuxt app locally
-
-Navigate to the template directory using `cd <your app name>`, and start the development servers by running the following command
+### 2. Configure environment variables
 
 ```shell
-npm run dev
+cp frontend/.env.example frontend/.env
+cp studio/.env.example studio/.env
 ```
 
-Or with Docker:
+Open both `.env` files and paste your Sanity project ID.
+
+### 3. Install dependencies and run
+
+**With Docker (recommended):**
 
 ```shell
 docker compose up
 ```
 
-#### 3. Open the app and sign in to the Studio
+**Without Docker:**
 
-Open the Nuxt app running locally in your browser on [http://localhost:3000](http://localhost:3000).
+```shell
+npm install
+npm run dev
+```
 
-Open the Studio running locally in your browser on [http://localhost:3333](http://localhost:3333). You should now see a screen prompting you to log in to the Studio. Use the same service (Google, GitHub, or email) that you used when you logged in to the CLI.
+Both options start the Nuxt frontend on [localhost:3000](http://localhost:3000) and Sanity Studio on [localhost:3333](http://localhost:3333).
 
-### Adding content with Sanity
+### 4. Add content
 
-#### 1. Publish your first document
+The template comes with `Page`, `Post`, `Person`, and `Settings` document types. Open the Studio, create a `Post`, and publish it — it will appear on the frontend immediately.
 
-The template comes pre-defined with a schema containing `Page`, `Post`, `Person`, and `Settings` document types.
-
-From the Studio, click "+ Create" and select the `Post` document type. Go ahead and create and publish the document.
-
-Your content should now appear in your Nuxt app ([http://localhost:3000](http://localhost:3000)) as well as in the Studio on the "Presentation" Tab
-
-#### 2. Import Sample Data (optional)
-
-You may want to start with some sample content and we've got you covered. Run this command from the root of your project to import the provided dataset (sample-data.tar.gz) into your Sanity project. This step is optional but can be helpful for getting started quickly.
+To load sample content:
 
 ```shell
 npm run import-sample-data
 ```
 
-#### 3. Extending the Sanity schema
+## Available Scripts
 
-The schema for the `Post` document type is defined in the `studio/src/schemaTypes/post.ts` file. You can [add more document types](https://www.sanity.io/docs/schema-types) to the schema to suit your needs.
+| Command                | Description                                 |
+| ---------------------- | ------------------------------------------- |
+| `npm run dev`          | Start frontend and studio in parallel       |
+| `npm run lint`         | Run Biome linter                            |
+| `npm run lint:fix`     | Auto-fix lint issues                        |
+| `npm run format`       | Format all files with Biome                 |
+| `npm test`             | Run unit tests (Vitest)                     |
+| `npm run lint:semgrep` | Run Semgrep security scan                   |
+| `npm run audit`        | Run npm dependency audit                    |
+| `npm run commit`       | Open interactive commit prompt (Commitizen) |
+| `docker compose up`    | Start everything in Docker                  |
 
-### Deploying your application and inviting editors
+## Git Workflow
 
-#### 1. Deploy Sanity Studio
+Every commit is automatically checked:
 
-Your Nuxt frontend (`/frontend`) and Sanity Studio (`/studio`) are still only running on your local computer. It's time to deploy and get it into the hands of other content editors.
+- **pre-commit** — Biome lint runs before each commit
+- **commit-msg** — Commitlint enforces [Conventional Commits](https://www.conventionalcommits.org/) format
+- **prepare-commit-msg** — Running `git commit` opens an interactive Commitizen prompt to guide you through writing a proper commit message
 
-Back in your Studio directory (`/studio`), run the following command to deploy your Sanity Studio.
+## CI Pipeline
+
+GitHub Actions runs on every push and on PRs to `main`:
+
+| Job            | What it does             |
+| -------------- | ------------------------ |
+| **Lint**       | Biome check              |
+| **Semgrep**    | Static security analysis |
+| **Audit**      | npm dependency audit     |
+| **Unit Tests** | Vitest suite             |
+
+## Deploying
+
+### Deploy Sanity Studio
 
 ```shell
-npx sanity deploy
+cd studio && npx sanity deploy
 ```
 
-#### 2. Deploy Nuxt app
+### Deploy the Nuxt frontend
 
-You have the freedom to deploy your Nuxt app to your hosting provider of choice. Nuxt applications can be deployed to various platforms including Vercel, Netlify, or any platform that supports Node.js or edge runtime.
+Deploy to any platform that supports Nuxt (Ghost Host, Vercel, Netlify, etc.). Set your environment variables on the platform and follow their Nuxt deployment guides.
 
-1. Create a GitHub repository from this project. [Learn more](https://docs.github.com/en/migrations/importing-source-code/using-the-command-line-to-import-source-code/adding-locally-hosted-code-to-github).
-2. Choose your preferred hosting platform and follow their deployment guides for Nuxt applications.
-3. Configure your Environment Variables as needed.
-
-For detailed deployment instructions, visit the [Nuxt deployment documentation](https://nuxt.com/docs/getting-started/deployment).
-
-#### 3. Invite a collaborator
-
-Now that you've deployed your Nuxt application and Sanity Studio, you can optionally invite a collaborator to your Studio. Open up [Manage](https://www.sanity.io/manage), select your project and click "Invite project members"
-
-They will be able to access the deployed Studio, where you can collaborate together on creating content.
+For details, see the [Nuxt deployment docs](https://nuxt.com/docs/getting-started/deployment).
 
 ## Resources
 
