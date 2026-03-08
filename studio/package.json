@@ -10,7 +10,9 @@
     "prebuild": "npm run extract-types",
     "build": "sanity build",
     "deploy": "sanity deploy",
-    "extract-types": "sanity schema extract --enforce-required-fields"
+    "extract-types": "sanity schema extract --enforce-required-fields",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "keywords": [
     "sanity"
@@ -27,16 +29,8 @@
     "styled-components": "^6.2.0"
   },
   "devDependencies": {
-    "@sanity/eslint-config-studio": "^6.0.0",
     "@types/react": "^19.2",
-    "eslint": "^9.39",
-    "prettier": "^3.7",
-    "typescript": "^5.9"
-  },
-  "prettier": {
-    "semi": false,
-    "printWidth": 100,
-    "bracketSpacing": false,
-    "singleQuote": true
+    "typescript": "^5.9",
+    "vitest": "^4.0.18"
   }
 }
