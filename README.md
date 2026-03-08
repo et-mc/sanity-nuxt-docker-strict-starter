@@ -9,15 +9,17 @@ A batteries-included starter for building content-driven apps with [Nuxt](https:
 This starter takes the official Sanity + Nuxt template and adds everything you'd set up yourself on a real project:
 
 - **Biome** for fast linting and formatting (replaces ESLint + Prettier)
-- **Vitest** for unit testing with Nuxt-aware test utilities
+- **lint-staged** for running Biome only on staged files (fast pre-commit checks)
+- **Vitest** for unit testing with Nuxt-aware test utilities and code coverage
 - **Playwright** for end-to-end browser testing
 - **Docker Compose** for one-command local development
-- **Husky** git hooks with Biome checks on every commit
+- **Husky** git hooks with lint-staged on every commit
 - **Commitizen + Commitlint** for conventional commit messages
 - **Semgrep** for static security analysis
 - **npm audit** for dependency vulnerability scanning
 - **qlty** for code quality analysis
-- **GitHub Actions CI** pipeline running lint, security, audit, and tests on every push
+- **GitHub Actions CI** pipeline running lint, security, audit, and tests with coverage on every push
+- **.editorconfig** for consistent editor settings across the team
 
 ## Getting Started
 
@@ -67,23 +69,24 @@ npm run import-sample-data
 
 ## Available Scripts
 
-| Command                | Description                                 |
-| ---------------------- | ------------------------------------------- |
-| `npm run dev`          | Start frontend and studio in parallel       |
-| `npm run lint`         | Run Biome linter                            |
-| `npm run lint:fix`     | Auto-fix lint issues                        |
-| `npm run format`       | Format all files with Biome                 |
-| `npm test`             | Run unit tests (Vitest)                     |
-| `npm run lint:semgrep` | Run Semgrep security scan                   |
-| `npm run audit`        | Run npm dependency audit                    |
-| `npm run commit`       | Open interactive commit prompt (Commitizen) |
-| `docker compose up`    | Start everything in Docker                  |
+| Command                 | Description                                 |
+| ----------------------- | ------------------------------------------- |
+| `npm run dev`           | Start frontend and studio in parallel       |
+| `npm run lint`          | Run Biome linter                            |
+| `npm run lint:fix`      | Auto-fix lint issues                        |
+| `npm run format`        | Format all files with Biome                 |
+| `npm test`              | Run unit tests (Vitest)                     |
+| `npm run test:coverage` | Run unit tests with coverage report         |
+| `npm run lint:semgrep`  | Run Semgrep security scan                   |
+| `npm run audit`         | Run npm dependency audit                    |
+| `npm run commit`        | Open interactive commit prompt (Commitizen) |
+| `docker compose up`     | Start everything in Docker                  |
 
 ## Git Workflow
 
 Every commit is automatically checked:
 
-- **pre-commit** — Biome lint runs before each commit
+- **pre-commit** — lint-staged runs Biome only on your staged files
 - **commit-msg** — Commitlint enforces [Conventional Commits](https://www.conventionalcommits.org/) format
 - **prepare-commit-msg** — Running `git commit` opens an interactive Commitizen prompt to guide you through writing a proper commit message
 
@@ -91,12 +94,16 @@ Every commit is automatically checked:
 
 GitHub Actions runs on every push and on PRs to `main`:
 
-| Job            | What it does             |
-| -------------- | ------------------------ |
-| **Lint**       | Biome check              |
-| **Semgrep**    | Static security analysis |
-| **Audit**      | npm dependency audit     |
-| **Unit Tests** | Vitest suite             |
+| Job            | What it does                      |
+| -------------- | --------------------------------- |
+| **Lint**       | Biome check                       |
+| **Semgrep**    | Static security analysis          |
+| **Audit**      | npm dependency audit              |
+| **Unit Tests** | Vitest suite with coverage report |
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for setup instructions, coding standards, and how to submit changes.
 
 ## Deploying
 
@@ -111,6 +118,10 @@ cd studio && npx sanity deploy
 Deploy to any platform that supports Nuxt (Ghost Host, Vercel, Netlify, etc.). Set your environment variables on the platform and follow their Nuxt deployment guides.
 
 For details, see the [Nuxt deployment docs](https://nuxt.com/docs/getting-started/deployment).
+
+## License
+
+[MIT](LICENSE)
 
 ## Resources
 
