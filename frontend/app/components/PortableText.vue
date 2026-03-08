@@ -4,7 +4,8 @@ import { h } from "vue";
 import ResolvedLink from "~/components/ResolvedLink.vue";
 import type { BlockContent } from "~/sanity/types";
 
-const _components = {
+// biome-ignore lint/correctness/noUnusedVariables: used in template
+const portableTextComponents = {
   marks: {
     link: (props: PortableTextMarkComponentProps) =>
       props.value
@@ -25,6 +26,6 @@ defineProps<{
 
 <template>
   <div v-if="portableText">
-    <SanityContent :value="portableText" :components="components" />
+    <SanityContent :value="portableText" :components="portableTextComponents" />
   </div>
 </template>

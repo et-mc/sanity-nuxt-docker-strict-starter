@@ -6,5 +6,7 @@
       <Footer />
     </section>
   </div>
-  <Toast />
+  <ClientOnly>
+    <Toast />
+  </ClientOnly>
 </template>
