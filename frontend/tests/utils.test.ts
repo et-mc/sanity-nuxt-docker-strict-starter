@@ -38,6 +38,15 @@ describe("linkResolver", () => {
     expect(linkResolver(link)).toBe("https://example.com");
   });
 
+  it("resolves product links", () => {
+    const link = {
+      _type: "link" as const,
+      linkType: "product" as const,
+      product: "cool-widget",
+    };
+    expect(linkResolver(link)).toBe("/products/cool-widget");
+  });
+
   it("returns null for href link without href value", () => {
     const link = { _type: "link" as const, linkType: "href" as const };
     expect(linkResolver(link)).toBeNull();

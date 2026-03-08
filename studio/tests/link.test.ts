@@ -122,4 +122,50 @@ describe("link schema", () => {
       expect(result).toBe(true);
     });
   });
+
+  describe("product reference validation", () => {
+    const productField = link.fields.find((f) => f.name === "product");
+    const productValidation = productField!.validation as any;
+
+    function extractCustomFn(validationFn: any) {
+      let customFn: any;
+      const mockRule = {
+        custom: (fn: any) => {
+          customFn = fn;
+          return mockRule;
+        },
+      };
+      validationFn(mockRule);
+      return customFn;
+    }
+
+    it("requires product reference when link type is product", () => {
+      const customFn = extractCustomFn(productValidation);
+      const result = customFn(undefined, {
+        parent: { linkType: "product" },
+      });
+      expect(result).toBe(
+        "Product reference is required when Link Type is Product",
+      );
+    });
+
+    it("passes when product reference is provided", () => {
+      const customFn = extractCustomFn(productValidation);
+      const result = customFn(
+        { _ref: "product-789" },
+        {
+          parent: { linkType: "product" },
+        },
+      );
+      expect(result).toBe(true);
+    });
+
+    it("does not require product reference when link type is href", () => {
+      const customFn = extractCustomFn(productValidation);
+      const result = customFn(undefined, {
+        parent: { linkType: "href" },
+      });
+      expect(result).toBe(true);
+    });
+  });
 });

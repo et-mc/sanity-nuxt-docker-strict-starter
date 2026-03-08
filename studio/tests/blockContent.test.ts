@@ -26,6 +26,7 @@ describe("blockContent schema", () => {
       "href",
       "page",
       "post",
+      "product",
       "openInNewTab",
     ]);
   });

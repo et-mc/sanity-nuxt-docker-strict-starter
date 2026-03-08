@@ -6,17 +6,25 @@ describe("schema registry", () => {
     const typeNames = schemaTypes.map((t) => t.name);
     expect(typeNames).toEqual([
       "settings",
+      "navigation",
       "page",
       "post",
       "person",
+      "product",
+      "productCategory",
       "blockContent",
       "infoSection",
       "callToAction",
+      "contactForm",
+      "hero",
+      "formField",
       "link",
+      "navItem",
+      "navGroup",
     ]);
   });
 
   it("has correct number of schema types", () => {
-    expect(schemaTypes).toHaveLength(8);
+    expect(schemaTypes).toHaveLength(16);
   });
 });

@@ -32,21 +32,32 @@ describe("page schema", () => {
     expect((slugField as any).options?.source).toBe("name");
   });
 
-  it("accepts callToAction and infoSection in pageBuilder", () => {
+  it("accepts hero, callToAction, infoSection, and contactForm in pageBuilder", () => {
     const pageBuilder = page.fields.find((f) => f.name === "pageBuilder");
     const types = (pageBuilder as any).of.map((item: any) => item.type);
-    expect(types).toEqual(["callToAction", "infoSection"]);
+    expect(types).toEqual([
+      "hero",
+      "callToAction",
+      "infoSection",
+      "contactForm",
+    ]);
   });
 
   it("generates thumbnail URLs for page builder insert menu", () => {
     const pageBuilder = page.fields.find((f) => f.name === "pageBuilder");
     const gridView = (pageBuilder as any).options.insertMenu.views[0];
     expect(gridView.name).toBe("grid");
+    expect(gridView.previewImageUrl("hero")).toBe(
+      "/static/page-builder-thumbnails/hero.webp",
+    );
     expect(gridView.previewImageUrl("callToAction")).toBe(
       "/static/page-builder-thumbnails/callToAction.webp",
     );
     expect(gridView.previewImageUrl("infoSection")).toBe(
       "/static/page-builder-thumbnails/infoSection.webp",
+    );
+    expect(gridView.previewImageUrl("contactForm")).toBe(
+      "/static/page-builder-thumbnails/contactForm.webp",
     );
   });
 });

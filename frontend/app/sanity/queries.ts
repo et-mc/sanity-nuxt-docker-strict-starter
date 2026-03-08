@@ -3,7 +3,8 @@ import { defineQuery } from "groq";
 const linkReference = /* groq */ `
 _type == "link" => {
 	"page": page->slug.current,
-	"post": post->slug.current
+	"post": post->slug.current,
+	"product": product->slug.current
 }
 `;
 
@@ -45,6 +46,9 @@ export const pageQuery = defineQuery(/* groq */ `
 			...,
 			"pageBuilder": pageBuilder[]{
 				...,
+				_type == "hero" => {
+					${linkFields},
+				},
 				_type == "callToAction" => {
 					${linkFields},
 				},
@@ -62,6 +66,49 @@ export const pageQuery = defineQuery(/* groq */ `
 						}
 					}
 				},
+				_type == "contactForm" => {
+					...
+				},
+			}
+		}`);
+
+export const productsQuery = defineQuery(/* groq */ `
+		*[_type == "product"] | order(name asc) {
+			...,
+			"category": category->{name, slug}
+		}`);
+
+export const productQuery = defineQuery(/* groq */ `
+		*[_type == "product" && defined(slug.current) && slug.current == $slug][0]{
+			...,
+			description[]{
+				...,
+				markDefs[]{
+					...,
+					_type == "link" => {
+						"link": {
+							...,
+							${linkReference}
+						}
+					},
+				}
+			},
+			"category": category->{name, slug},
+			${linkFields}
+		}`);
+
+export const navigationQuery = defineQuery(/* groq */ `
+		*[_type == "navigation"][0]{
+			headerLinks[]{
+				...,
+				${linkFields}
+			},
+			footerGroups[]{
+				...,
+				links[]{
+					...,
+					${linkFields}
+				}
 			}
 		}`);
 

@@ -21,6 +21,11 @@ export function linkResolver(link: Link | undefined) {
         return `/posts/${link.post}`;
       }
       return null;
+    case "product":
+      if (link?.product && typeof link.product === "string") {
+        return `/products/${link.product}`;
+      }
+      return null;
     default:
       return null;
   }
