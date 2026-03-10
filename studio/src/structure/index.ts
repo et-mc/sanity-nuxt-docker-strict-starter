@@ -1,4 +1,4 @@
-import {CogIcon, BasketIcon} from '@sanity/icons'
+import {CogIcon, BasketIcon, FolderIcon} from '@sanity/icons'
 import type {StructureBuilder, StructureResolver} from 'sanity/structure'
 import pluralize from 'pluralize-esm'
 
@@ -15,6 +15,7 @@ const DISABLED_TYPES = [
   'productCategory',
   'variantType',
   'attributeDefinition',
+  'person',
 ]
 
 export const structure: StructureResolver = (S: StructureBuilder) =>
@@ -44,36 +45,43 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
               S.listItem()
                 .title('Products')
                 .icon(BasketIcon)
-                .child(
-                  S.list()
-                    .title('Products')
-                    .items([
-                      S.listItem()
-                        .title('All Products')
-                        .child(
-                          S.documentList()
+                .child(() => {
+                  const client = S.context.getClient({apiVersion: '2025-10-20'})
+                  return client
+                    .fetch<Array<{_id: string; name: string}>>(
+                      `*[_type == "productCategory"] | order(name asc) { _id, name }`,
+                    )
+                    .then((collections) =>
+                      S.list()
+                        .title('Products')
+                        .items([
+                          S.listItem()
                             .title('All Products')
-                            .filter('_type == "product"'),
-                        ),
-                      S.listItem()
-                        .title('By Collection')
-                        .child(
-                          S.documentTypeList('productCategory')
-                            .title('Select a Collection')
-                            .child((categoryId) =>
+                            .icon(BasketIcon)
+                            .child(
                               S.documentList()
-                                .title('Products')
-                                .filter(
-                                  '_type == "product" && $categoryId in collections[]._ref',
-                                )
-                                .params({categoryId}),
+                                .title('All Products')
+                                .filter('_type == "product"'),
                             ),
-                        ),
-                    ]),
-                ),
+                          S.divider(),
+                          ...collections.map((col) =>
+                            S.listItem()
+                              .title(col.name)
+                              .icon(FolderIcon)
+                              .child(
+                                S.documentList()
+                                  .title(col.name)
+                                  .filter(
+                                    '_type == "product" && $categoryId in collections[]._ref',
+                                  )
+                                  .params({categoryId: col._id}),
+                              ),
+                          ),
+                        ]),
+                    )
+                }),
               S.documentTypeListItem('productCategory').title('Collections'),
               S.divider(),
-              S.documentTypeListItem('variantType').title('Variants'),
               S.documentTypeListItem('attributeDefinition').title('Attributes'),
             ]),
         ),

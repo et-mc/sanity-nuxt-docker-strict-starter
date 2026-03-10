@@ -49,7 +49,7 @@ function resolveHref(documentType?: string, slug?: string): string | undefined {
 // Main Sanity configuration
 export default defineConfig({
   name: 'default',
-  title: 'Clean Nuxt + Sanity',
+  title: 'Crew Tool',
 
   projectId,
   dataset,
