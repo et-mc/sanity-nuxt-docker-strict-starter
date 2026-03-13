@@ -42,7 +42,7 @@ useSiteMetadata({
       </div>
       <div v-else>
         <h2 class="text-2xl font-semibold text-gray-900">
-          This page has no Page Builder content!
+          This page has no content blocks!
         </h2>
         <p class="mt-2 text-base text-gray-500">
           Open the page in Sanity Studio to add content.

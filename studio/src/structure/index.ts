@@ -1,4 +1,4 @@
-import {CogIcon, BasketIcon, FolderIcon} from '@sanity/icons'
+import {CogIcon, BasketIcon, FolderIcon, MenuIcon} from '@sanity/icons'
 import type {StructureBuilder, StructureResolver} from 'sanity/structure'
 import pluralize from 'pluralize-esm'
 
@@ -10,6 +10,7 @@ import pluralize from 'pluralize-esm'
 
 const DISABLED_TYPES = [
   'settings',
+  'navigation',
   'assist.instruction.context',
   'product',
   'productCategory',
@@ -31,6 +32,8 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
         .map((listItem) => {
           return listItem.title(pluralize(listItem.getTitle() as string))
         }),
+
+      S.documentTypeListItem('navigation').title('Menus').icon(MenuIcon),
 
       S.divider(),
 
@@ -88,9 +91,9 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
 
       S.divider(),
 
-      // Settings Singleton in order to view/edit the one particular document for Settings.  Learn more about Singletons: https://www.sanity.io/docs/create-a-link-to-a-single-edit-page-in-your-main-document-type-list
+      // Settings Singleton
       S.listItem()
-        .title('Site Settings')
-        .child(S.document().schemaType('settings').documentId('siteSettings'))
-        .icon(CogIcon),
+        .title('Settings')
+        .icon(CogIcon)
+        .child(S.document().schemaType('settings').documentId('siteSettings')),
     ])

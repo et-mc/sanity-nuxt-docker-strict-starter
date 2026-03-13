@@ -8,7 +8,9 @@ import {attributeDefinition} from './documents/attributeDefinition'
 import {callToAction} from './objects/callToAction'
 import {infoSection} from './objects/infoSection'
 import {settings} from './singletons/settings'
+import {navigation} from './singletons/navigation'
 import {link} from './objects/link'
+import {navigationItem} from './objects/navigationItem'
 import {blockContent} from './objects/blockContent'
 import {productVariant} from './objects/productVariant'
 import {variantOption} from './objects/variantOption'
@@ -19,6 +21,7 @@ import {productAttribute} from './objects/productAttribute'
 export const schemaTypes = [
   // Singletons
   settings,
+  navigation,
   // Documents
   page,
   post,
@@ -35,4 +38,5 @@ export const schemaTypes = [
   productVariant,
   variantOption,
   productAttribute,
+  navigationItem,
 ]
