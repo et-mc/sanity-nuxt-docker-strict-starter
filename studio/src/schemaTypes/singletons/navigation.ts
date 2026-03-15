@@ -1,5 +1,6 @@
 import {MenuIcon} from '@sanity/icons'
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {blockThumbnailUrl} from '../objects/blockThumbnails'
 
 /**
  * Navigation schema for managing site menus.
@@ -44,15 +45,18 @@ export const navigation = defineType({
       name: 'blocks',
       title: 'Blocks',
       type: 'array',
-      of: [{type: 'callToAction'}, {type: 'infoSection'}],
+      of: [
+        defineArrayMember({type: 'textBlock'}),
+        defineArrayMember({type: 'mediaBlock'}),
+        defineArrayMember({type: 'cardBlock'}),
+        defineArrayMember({type: 'formBlock'}),
+      ],
       options: {
-        addItemLabel: 'Add block',
         insertMenu: {
           views: [
             {
               name: 'grid',
-              previewImageUrl: (schemaTypeName) =>
-                `/static/page-builder-thumbnails/${schemaTypeName}.webp`,
+              previewImageUrl: blockThumbnailUrl,
             },
           ],
         },

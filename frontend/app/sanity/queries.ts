@@ -14,6 +14,41 @@ link {
 	}
 `;
 
+const customSectionProjection = /* groq */ `
+_type == "customSection" => {
+	...,
+	columns[]{
+		...,
+		blocks[]{
+			...,
+			_type == "formBlock" => {
+				...,
+				form->{ ... }
+			},
+			_type == "textBlock" => {
+				...,
+				content[]{
+					...,
+					markDefs[]{
+						...,
+						_type == "link" => {
+							"link": {
+								...,
+								${linkReference}
+							}
+						},
+					}
+				}
+			},
+			_type == "cardBlock" => {
+				...,
+				${linkFields},
+			},
+		}
+	}
+}
+`;
+
 export const postsQuery =
   defineQuery(`*[_type == "post"] | order(date desc, _updatedAt desc) {
 		...
@@ -62,6 +97,7 @@ export const pageQuery = defineQuery(/* groq */ `
 						}
 					}
 				},
+				${customSectionProjection},
 			}
 		}`);
 
@@ -147,6 +183,35 @@ export const collectionBySlugQuery = defineQuery(/* groq */ `
 			image,
 			"parent": parent->{_id, name, "slug": slug.current}
 		}`);
+
+export const homePageQuery = defineQuery(/* groq */ `
+		*[_type == "configuration" && _id in ["siteConfiguration", "drafts.siteConfiguration"]] | order(_id asc)[0].homePage->{
+			...,
+			"pageBuilder": pageBuilder[]{
+				...,
+				_type == "callToAction" => {
+					${linkFields},
+				},
+				_type == "infoSection" => {
+					content[]{
+						...,
+						markDefs[]{
+							...,
+							_type == "link" => {
+								"link": {
+									...,
+									${linkReference}
+								}
+							},
+						}
+					}
+				},
+				${customSectionProjection},
+			}
+		}`);
+
+export const homePageRefQuery = defineQuery(/* groq */ `
+		*[_type == "configuration" && _id in ["siteConfiguration", "drafts.siteConfiguration"]] | order(_id asc)[0].homePage._ref`);
 
 export const settingsQuery = defineQuery(/* groq */ `
 		*[_type == "settings"][0]{

@@ -45,11 +45,10 @@ export const page = defineType({
     }),
 defineField({
       name: 'pageBuilder',
-      title: 'Blocks',
+      title: 'Sections',
       type: 'array',
-      of: [{type: 'hero'}, {type: 'cards'}, {type: 'callToAction'}, {type: 'infoSection'}, {type: 'productCarousel'}],
+      of: [{type: 'hero'}, {type: 'cards'}, {type: 'callToAction'}, {type: 'infoSection'}, {type: 'productCarousel'}, {type: 'customSection'}],
       options: {
-        addItemLabel: 'Add block',
         insertMenu: {
           // Configure the "Add Item" menu to display a thumbnail preview of the content type. https://www.sanity.io/docs/array-type#efb1fe03459d
           views: [
