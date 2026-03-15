@@ -42,20 +42,7 @@ export const page = defineType({
       },
       group: 'content',
     }),
-    defineField({
-      name: 'heading',
-      title: 'Heading',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-      group: 'content',
-    }),
-    defineField({
-      name: 'subheading',
-      title: 'Subheading',
-      type: 'string',
-      group: 'content',
-    }),
-    defineField({
+defineField({
       name: 'pageBuilder',
       title: 'Blocks',
       type: 'array',
