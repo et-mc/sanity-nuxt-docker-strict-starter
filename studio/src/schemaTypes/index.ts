@@ -8,6 +8,7 @@ import {attributeDefinition} from './documents/attributeDefinition'
 import {callToAction} from './objects/callToAction'
 import {infoSection} from './objects/infoSection'
 import {settings} from './singletons/settings'
+import {configuration} from './singletons/configuration'
 import {navigation} from './singletons/navigation'
 import {link} from './objects/link'
 import {navigationItem} from './objects/navigationItem'
@@ -21,6 +22,7 @@ import {productAttribute} from './objects/productAttribute'
 export const schemaTypes = [
   // Singletons
   settings,
+  configuration,
   navigation,
   // Documents
   page,

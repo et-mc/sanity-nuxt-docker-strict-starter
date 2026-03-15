@@ -4,19 +4,16 @@ import {defineArrayMember, defineField, defineType} from 'sanity'
 import * as demo from '../../lib/initialValues'
 
 /**
- * Settings schema Singleton.  Singletons are single documents that are displayed not in a collection, handy for things like site settings and other global configurations.
+ * Settings schema Singleton — the "About" section.
+ * Contains site-wide metadata like title, description, and OG image.
  * Learn more: https://www.sanity.io/docs/create-a-link-to-a-single-edit-page-in-your-main-document-type-list
  */
 
 export const settings = defineType({
   name: 'settings',
-  title: 'Settings',
+  title: 'About',
   type: 'document',
   icon: CogIcon,
-  groups: [
-    {name: 'general', title: 'General', default: true},
-    {name: 'store', title: 'Store'},
-  ],
   fields: [
     defineField({
       name: 'title',
@@ -25,14 +22,12 @@ export const settings = defineType({
       type: 'string',
       initialValue: demo.title,
       validation: (rule) => rule.required(),
-      group: 'general',
     }),
     defineField({
       name: 'description',
       description: 'Used on the Homepage',
       title: 'Description',
       type: 'array',
-      group: 'general',
       initialValue: demo.description,
       of: [
         // Define a minified block content field for the description. https://www.sanity.io/docs/block-content
@@ -129,40 +124,12 @@ export const settings = defineType({
           imageDescriptionField: 'alt',
         },
       },
-      group: 'general',
-    }),
-
-    // Store URL configuration
-    defineField({
-      name: 'storeBaseSlug',
-      title: 'Store Base URL',
-      type: 'string',
-      description:
-        'Base URL segment for products (e.g. "products", "shop"). Leave empty to serve product pages from the site root.',
-      group: 'store',
-    }),
-    defineField({
-      name: 'useCollectionRouting',
-      title: 'Use collections in product URLs',
-      type: 'boolean',
-      description:
-        'Include the collection slug in product URLs (e.g. /products/clothing/product-name)',
-      initialValue: false,
-      group: 'store',
-    }),
-    defineField({
-      name: 'createCollectionPages',
-      title: 'Create collection index pages',
-      type: 'boolean',
-      description: 'Generate browsable listing pages for each collection',
-      initialValue: false,
-      group: 'store',
     }),
   ],
   preview: {
     prepare() {
       return {
-        title: 'Settings',
+        title: 'About',
       }
     },
   },
