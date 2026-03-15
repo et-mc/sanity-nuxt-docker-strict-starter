@@ -6,11 +6,25 @@ export const infoSection = defineType({
   title: 'Info Section',
   type: 'object',
   icon: TextIcon,
+  fieldsets: [
+    {
+      name: 'header',
+      title: 'Header',
+      options: {columns: 2},
+    },
+  ],
   fields: [
+    defineField({
+      name: 'icon',
+      title: 'Icon',
+      type: 'iconPicker',
+      fieldset: 'header',
+    }),
     defineField({
       name: 'heading',
       title: 'Heading',
       type: 'string',
+      fieldset: 'header',
     }),
     defineField({
       name: 'subheading',

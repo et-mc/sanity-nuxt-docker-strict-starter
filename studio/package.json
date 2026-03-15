@@ -24,6 +24,7 @@
     "react-dom": "^19.2",
     "rxjs": "^7.8.2",
     "sanity": "^5.14.0",
+    "sanity-plugin-icon-picker-v2": "^1.0.3",
     "styled-components": "^6.2.0"
   },
   "devDependencies": {

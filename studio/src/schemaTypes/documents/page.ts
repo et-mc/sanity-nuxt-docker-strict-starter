@@ -1,5 +1,6 @@
 import {defineField, defineType} from 'sanity'
 import {DocumentIcon} from '@sanity/icons'
+import {blockThumbnailUrl} from '../objects/blockThumbnails'
 
 /**
  * Page schema.  Define and edit the fields for the 'page' content type.
@@ -46,7 +47,7 @@ defineField({
       name: 'pageBuilder',
       title: 'Blocks',
       type: 'array',
-      of: [{type: 'callToAction'}, {type: 'infoSection'}],
+      of: [{type: 'hero'}, {type: 'cards'}, {type: 'callToAction'}, {type: 'infoSection'}, {type: 'productCarousel'}],
       options: {
         addItemLabel: 'Add block',
         insertMenu: {
@@ -54,8 +55,7 @@ defineField({
           views: [
             {
               name: 'grid',
-              previewImageUrl: (schemaTypeName) =>
-                `/static/page-builder-thumbnails/${schemaTypeName}.webp`,
+              previewImageUrl: blockThumbnailUrl,
             },
           ],
         },

@@ -16,6 +16,7 @@ import {
   type DocumentLocation,
 } from 'sanity/presentation'
 import {assist} from '@sanity/assist'
+import {iconPicker} from 'sanity-plugin-icon-picker-v2'
 
 // Environment variables for project configuration
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID || 'your-projectID'
@@ -142,6 +143,7 @@ export default defineConfig({
     // Additional plugins for enhanced functionality
     // unsplashImageAsset(),
     assist(),
+    iconPicker(),
     visionTool(),
   ],
 
